@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login & Signup</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #8e0000; /* dark sports red */
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 18px;
+            background: #8e0000;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #b30000;
+        }
+
+        .switch {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .switch span {
+            color: #8e0000;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Signup Card -->
+    <div class="card" id="signup-card">
+        <h2>Create Account</h2>
+
+        <input id="signup-name" type="text" placeholder="Full Name">
+        <input id="signup-email" type="email" placeholder="Email">
+        <input id="signup-password" type="password" placeholder="Password">
+
+        <button onclick="signup()">Sign Up</button>
+
+        <div class="switch">Already have an account? <span onclick="showLogin()">Login</span></div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="card" id="login-card" style="display:none;">
+        <h2>Login</h2>
+
+        <input id="login-email" type="email" placeholder="Email">
+        <input id="login-password" type="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <div class="switch">Don't have an account? <span onclick="showSignup()">Sign Up</span></div>
+    </div>
+
+<script>
+
+    // Show login form
+    function showLogin() {
+        document.getElementById("signup-card").style.display = "none";
+        document.getElementById("login-card").style.display = "block";
+    }
+
+    // Show signup form
+    function showSignup() {
+        document.getElementById("signup-card").style.display = "block";
+        document.getElementById("login-card").style.display = "none";
+    }
+
+    // -------------------------
+    // SIGNUP FUNCTION
+    // -------------------------
+    async function signup() {
+        const name = document.getElementById("signup-name").value;
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
+
+        const res = await fetch("http://127.0.0.1:5000/signup", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({name, email, password})
+        });
+
+        const data = await res.json();
+
+        if (res.status === 201) {
+            alert("Signup successful!");
+            showLogin();
+        } else {
+            alert("Signup failed: " + data.error);
+        }
+    }
+
+    // -------------------------
+    // LOGIN FUNCTION
+    // -------------------------
+    async function login() {
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        const res = await fetch("http://127.0.0.1:5000/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email, password})
+        });
+
+        const data = await res.json();
+
+        if (res.status === 200) {
+            alert("Login successful! Welcome " + data.name);
+            
+            // Redirect to dashboard page
+            // (I can build this next for you)
+        } else {
+            alert("Login failed: " + data.error);
+        }
+    }
+
+</script>
+
+</body>
+</html>
