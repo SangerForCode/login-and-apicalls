@@ -3,171 +3,768 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Login & Signup</title>
-
+    <title>BITS GOA | Sports Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- RESET & CORE VARIABLES --- */
+        :root {
+            --primary-red: #E31C25;
+            --dark-red: #8B0000;
+            --bg-black: #0a0a0a;
+            --bg-dark-grey: #121212;
+            --text-white: #ffffff;
+            --text-grey: #a0a0a0;
+            --glass-bg: rgba(20, 20, 20, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 20px rgba(227, 28, 37, 0.4);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            outline: none;
         }
 
         body {
-            background: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .card {
-            background: #ffffff;
+        /* --- BACKGROUND TEXTURE (CSS ONLY) --- */
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.15) 0%, transparent 60%),
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-color: var(--bg-black);
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #8e0000; /* dark sports red */
-        }
-
-        input {
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: absolute;
+            top: 0;
             width: 100%;
-            padding: 12px;
-            margin-top: 12px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 15px;
+            z-index: 10;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 18px;
-            background: #8e0000;
-            color: white;
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            color: var(--text-white);
+            text-transform: uppercase;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a, .nav-links button {
+            color: var(--text-grey);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            background: none;
             border: none;
-            font-size: 16px;
-            border-radius: 8px;
             cursor: pointer;
-            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
         }
 
-        button:hover {
-            background: #b30000;
+        .nav-links a:hover, .nav-links button:hover {
+            color: var(--primary-red);
         }
 
-        .switch {
+        /* --- SECTIONS MANAGEMENT --- */
+        main {
+            flex: 1;
+            display: flex; /* Default for hero */
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- HERO & AUTH SECTION --- */
+        .hero {
+            align-items: center;
+            padding: 120px 5% 50px;
+            position: relative;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* Left Content */
+        .hero-content {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .tagline {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-red);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 3.8rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+
+        h1 span {
+            -webkit-text-stroke: 1px var(--text-white); 
+            color: transparent;
+        }
+
+        .hero-p {
+            color: var(--text-grey);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 450px;
+        }
+
+        /* Right Content (Auth Cards) */
+        .form-wrapper {
+            position: relative;
+            animation: slideInRight 0.8s ease-out 0.2s backwards;
+        }
+
+        .form-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--primary-red),
+                var(--primary-red) 2px,
+                transparent 2px,
+                transparent 10px
+            );
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .auth-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
             text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
         }
 
-        .switch span {
-            color: #8e0000;
+        .card-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header p {
+            color: var(--text-grey);
+            font-size: 0.9rem;
+        }
+
+        /* Form Elements */
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 1rem;
+            border-radius: 8px;
+            color: var(--text-white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-red);
+            box-shadow: var(--glow);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .input-field::placeholder {
+            color: transparent;
+        }
+
+        .label {
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            color: var(--text-grey);
+            pointer-events: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            background-color: transparent;
+            padding: 0 4px;
+        }
+
+        .input-field:focus ~ .label,
+        .input-field:not(:placeholder-shown) ~ .label {
+            top: -0.6rem;
+            left: 0.8rem;
+            font-size: 0.75rem;
+            color: var(--primary-red);
+            background-color: #151515;
+            font-weight: 600;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             cursor: pointer;
-            font-weight: bold;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(227, 28, 37, 0.5);
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-grey);
+        }
+
+        .switch-btn {
+            color: var(--primary-red);
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        /* --- DASHBOARD SECTION --- */
+        .dashboard-section {
+            padding: 120px 5% 50px;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-header p {
+            color: var(--text-grey);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary-red);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-white);
+            margin: 1rem 0;
+        }
+
+        .stat-label {
+            color: var(--text-grey);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-red);
+            width: 0%; /* Animate this */
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 2rem 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .copyright {
+            color: var(--text-grey);
+            font-size: 0.8rem;
+        }
+
+        .socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-grey);
+            border-radius: 50%;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .social-dot:hover {
+            background-color: var(--primary-red);
+            transform: scale(1.5);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.2rem; }
+            .auth-card { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Signup Card -->
-    <div class="card" id="signup-card">
-        <h2>Create Account</h2>
+    <div class="bg-texture"></div>
 
-        <input id="signup-name" type="text" placeholder="Full Name">
-        <input id="signup-email" type="email" placeholder="Email">
-        <input id="signup-password" type="password" placeholder="Password">
+    <nav>
+        <div class="logo" onclick="location.reload()">BITS GOA<span>.</span></div>
+        <div class="nav-links" id="navLinks">
+            <a href="#">Training</a>
+            <a href="#">Athletes</a>
+            <button onclick="showLogin()">Login</button>
+        </div>
+    </nav>
 
-        <button onclick="signup()">Sign Up</button>
+    <!-- LANDING / AUTH SECTION -->
+    <main id="landingPage" class="hero">
+        <div class="container">
+            <!-- Left Side Text -->
+            <div class="hero-content">
+                <span class="tagline">Defy Your Limits</span>
+                <h1>Forged in <br><span>Sweat & Fire</span></h1>
+                <p class="hero-p">
+                    Join the premier digital ecosystem for elite athletes. 
+                    Track stats, compete globally, and unlock your true potential.
+                </p>
+            </div>
 
-        <div class="switch">Already have an account? <span onclick="showLogin()">Login</span></div>
-    </div>
+            <!-- Right Side Form Area -->
+            <div class="form-wrapper">
+                
+                <!-- SIGNUP FORM -->
+                <div id="signup-card" class="auth-card">
+                    <div class="card-header">
+                        <h2>Create Account</h2>
+                        <p>Start your journey to the top.</p>
+                    </div>
 
-    <!-- Login Card -->
-    <div class="card" id="login-card" style="display:none;">
-        <h2>Login</h2>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="input-group">
+                            <input type="text" id="signup-name" class="input-field" placeholder=" " required>
+                            <label for="signup-name" class="label">Full Name</label>
+                        </div>
 
-        <input id="login-email" type="email" placeholder="Email">
-        <input id="login-password" type="password" placeholder="Password">
+                        <div class="input-group">
+                            <input type="email" id="signup-email" class="input-field" placeholder=" " required>
+                            <label for="signup-email" class="label">Email Address</label>
+                        </div>
 
-        <button onclick="login()">Login</button>
+                        <div class="input-group">
+                            <input type="password" id="signup-password" class="input-field" placeholder=" " required>
+                            <label for="signup-password" class="label">Password</label>
+                        </div>
 
-        <div class="switch">Don't have an account? <span onclick="showSignup()">Sign Up</span></div>
-    </div>
+                        <button type="submit" class="btn-submit">Sign Up</button>
+                    </form>
 
-<script>
+                    <div class="form-footer">
+                        Already a member? <button class="switch-btn" onclick="showLogin()">Log In</button>
+                    </div>
+                </div>
 
-    // Show login form
-    function showLogin() {
-        document.getElementById("signup-card").style.display = "none";
-        document.getElementById("login-card").style.display = "block";
-    }
+                <!-- LOGIN FORM (Hidden by Default) -->
+                <div id="login-card" class="auth-card hidden">
+                    <div class="card-header">
+                        <h2>Welcome Back</h2>
+                        <p>Access your performance data.</p>
+                    </div>
 
-    // Show signup form
-    function showSignup() {
-        document.getElementById("signup-card").style.display = "block";
-        document.getElementById("login-card").style.display = "none";
-    }
+                    <form onsubmit="handleLogin(event)">
+                        <div class="input-group">
+                            <input type="email" id="login-email" class="input-field" placeholder=" " required>
+                            <label for="login-email" class="label">Email Address</label>
+                        </div>
 
-    // -------------------------
-    // SIGNUP FUNCTION
-    // -------------------------
-    async function signup() {
-        const name = document.getElementById("signup-name").value;
-        const email = document.getElementById("signup-email").value;
-        const password = document.getElementById("signup-password").value;
+                        <div class="input-group">
+                            <input type="password" id="login-password" class="input-field" placeholder=" " required>
+                            <label for="login-password" class="label">Password</label>
+                        </div>
 
-        const res = await fetch("http://127.0.0.1:5000/signup", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({name, email, password})
-        });
+                        <button type="submit" class="btn-submit">Login</button>
+                    </form>
 
-        const data = await res.json();
+                    <div class="form-footer">
+                        Don't have an account? <button class="switch-btn" onclick="showSignup()">Sign Up</button>
+                    </div>
+                </div>
 
-        if (res.status === 201) {
-            alert("Signup successful!");
-            showLogin();
-        } else {
-            alert("Signup failed: " + data.error);
-        }
-    }
+            </div>
+        </div>
+    </main>
 
-    // -------------------------
-    // LOGIN FUNCTION
-    // -------------------------
-    async function login() {
-        const email = document.getElementById("login-email").value;
-        const password = document.getElementById("login-password").value;
+    <!-- DASHBOARD SECTION (Hidden by Default) -->
+    <main id="dashboardPage" class="dashboard-section">
+        <div class="dashboard-container">
+            <div class="welcome-header">
+                <span class="tagline">Status: Active</span>
+                <h1 id="welcomeText">Welcome, Athlete</h1>
+                <p>Your performance metrics are syncing in real-time.</p>
+            </div>
 
-        const res = await fetch("http://127.0.0.1:5000/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({email, password})
-        });
+            <div class="stats-grid">
+                <!-- Card 1 -->
+                <div class="stat-card">
+                    <div class="stat-label">Next Match</div>
+                    <div class="stat-value">TOMORROW</div>
+                    <div class="stat-label">vs. Mumbai Champs</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 90%"></div>
+                    </div>
+                </div>
 
-        const data = await res.json();
+                <!-- Card 2 -->
+                <div class="stat-card">
+                    <div class="stat-label">Weekly Rank</div>
+                    <div class="stat-value">#42</div>
+                    <div class="stat-label">Top 5% of Club</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 85%"></div>
+                    </div>
+                </div>
 
-        if (res.status === 200) {
-            alert("Login successful! Welcome " + data.name);
+                <!-- Card 3 -->
+                <div class="stat-card">
+                    <div class="stat-label">Fitness Score</div>
+                    <div class="stat-value">94.2</div>
+                    <div class="stat-label">Peak Condition</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94%"></div>
+                    </div>
+                </div>
+            </div>
             
-            // Redirect to dashboard page
-            // (I can build this next for you)
-        } else {
-            alert("Login failed: " + data.error);
+            <div style="text-align: center; margin-top: 3rem;">
+                 <button class="btn-submit" onclick="location.reload()" style="max-width: 200px;">Log Out</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="copyright">© 2025 Bits Goa Sports Club</div>
+        <div class="socials">
+            <div class="social-dot" title="Instagram"></div>
+            <div class="social-dot" title="Twitter"></div>
+            <div class="social-dot" title="YouTube"></div>
+        </div>
+    </footer>
+
+    <script>
+        // UI Toggle Functions
+        function showLogin() {
+            document.getElementById("signup-card").classList.add("hidden");
+            document.getElementById("login-card").classList.remove("hidden");
         }
-    }
 
-</script>
+        function showSignup() {
+            document.getElementById("login-card").classList.add("hidden");
+            document.getElementById("signup-card").classList.remove("hidden");
+        }
 
+        function showDashboard(userName) {
+            // Hide Landing, Show Dashboard
+            document.getElementById("landingPage").classList.add("hidden"); // Using flex logic in CSS
+            document.getElementById("landingPage").style.display = 'none';
+            
+            const dash = document.getElementById("dashboardPage");
+            dash.style.display = 'flex';
+            
+            // Update Name
+            document.getElementById("welcomeText").innerHTML = `Welcome, <br><span>${userName}</span>`;
+            
+            // Trigger animations on progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress-fill').forEach(bar => {
+                    const width = bar.style.width;
+                    bar.style.width = '0';
+                    setTimeout(() => bar.style.width = width, 100);
+                });
+            }, 100);
+        }
+
+        // Parallax Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            const texture = document.querySelector('.bg-texture');
+            if(texture) texture.style.backgroundPosition = `${x * 20}px ${y * 20}px`;
+        });
+
+        // -------------------------
+        // SIGNUP LOGIC
+        // -------------------------
+        async function handleSignup(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Creating...";
+            
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+
+            try {
+                const res = await fetch("http://127.0.0.1:5000/signup", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({name, email, password})
+                });
+
+                const data = await res.json();
+
+                if (res.status === 201) {
+                    btn.innerText = "Success!";
+                    btn.style.background = '#4ade80';
+                    btn.style.color = '#000';
+                    setTimeout(() => {
+                        showLogin();
+                        btn.innerText = originalText;
+                        btn.style.background = ''; 
+                        btn.style.color = '';
+                        event.target.reset();
+                    }, 1000);
+                } else {
+                    alert("Signup failed: " + (data.error || "Unknown error"));
+                    btn.innerText = originalText;
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Connection failed. Ensure backend is running at http://127.0.0.1:5000");
+                btn.innerText = originalText;
+            }
+        }
+
+        // -------------------------
+        // LOGIN LOGIC
+        // -------------------------
+        async function handleLogin(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Authenticating...";
+
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            try {
+                const res = await fetch("http://127.0.0.1:5000/login", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({email, password})
+                });
+
+                const data = await res.json();
+
+                if (res.status === 200) {
+                    btn.innerText = "Access Granted";
+                    btn.style.background = '#4ade80';
+                    btn.style.color = '#000';
+                    setTimeout(() => {
+                        showDashboard(data.name || "Athlete");
+                    }, 800);
+                } else {
+                    alert("Login failed: " + (data.error || "Invalid credentials"));
+                    btn.innerText = originalText;
+                }
+            } catch (err) {
+                console.error(err);
+                // Fallback for demo purposes if backend isn't running
+                // alert("Connection failed. Ensure backend is running.");
+                // OPTIONAL: Remove this fallback for production
+                if (confirm("Backend not detected. Enter demo mode?")) {
+                    showDashboard("Demo User");
+                }
+                btn.innerText = originalText;
+            }
+        }
+    </script>
 </body>
 </html>
