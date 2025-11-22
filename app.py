@@ -88,7 +88,24 @@ def login():
     # If login succeeded
     return jsonify({"message": "Login successful", "name": user["name"]}), 200
 
+# -------------------------
+# VIEW ALL USERS (DEBUG)
+# -------------------------
+@app.route("/users", methods=["GET"])
+def get_all_users():
+    conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, name, email FROM users")
+    rows = cur.fetchall()
+    conn.close()
+
+    users = [dict(row) for row in rows]
+
+    return jsonify(users), 200
 
 # Run the server
 if __name__ == "__main__":
     app.run(debug=True)   # debug=True auto reloads on file changes
+
+
