@@ -20,7 +20,7 @@ The project also includes a basic `index.html` file to serve as a frontend for i
 
 ## System Diagram
 ```mermaid
-graph TD
+flowchart TD
     subgraph "Client"
         A[Browser with index.html]
     end
